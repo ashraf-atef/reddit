@@ -1,6 +1,6 @@
 android {
     defaultConfig {
-        buildConfigField "String", "SERVER_URL", "\"https://hayah-carema.herokuapp.com\""
+        buildConfigField "String", "SERVER_URL", "\"https://reddit.com/r/aww/\""
         resConfigs "en", "ar"
     }
 }

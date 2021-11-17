@@ -1,6 +1,7 @@
 package com.example.restaurant.common.di.module
 
 import com.example.reddit.common.constants.SERVER_URL_KEY
+import com.example.reddit.posts.data.remote.api.RedditApi
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -60,11 +61,11 @@ abstract class NetModule {
                 .build()
         }
 
-//        @Provides
-//        @Reusable
-//        @JvmStatic
-//        fun providesTagsApi(retrofit: Retrofit): TagsApi {
-//            return retrofit.create(TagsApi::class.java)
-//        }
+        @Provides
+        @Reusable
+        @JvmStatic
+        fun providesRedditApi(retrofit: Retrofit): RedditApi {
+            return retrofit.create(RedditApi::class.java)
+        }
     }
 }

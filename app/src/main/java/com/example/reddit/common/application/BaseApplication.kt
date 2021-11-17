@@ -1,5 +1,7 @@
 package com.example.reddit.common.application
 
+import android.content.Context
+import androidx.multidex.MultiDex
 import com.example.reddit.BuildConfig
 import com.example.reddit.common.di.component.AppComponent
 import com.example.reddit.common.di.component.DaggerAppComponent
@@ -18,6 +20,4 @@ class BaseApplication : DaggerApplication() {
             .build()
         return appComponent
     }
-
-
 }

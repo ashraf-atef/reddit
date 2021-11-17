@@ -3,6 +3,12 @@ package com.example.reddit.common.di.component
 import android.app.Application
 import com.example.reddit.common.application.BaseApplication
 import com.example.reddit.common.constants.SERVER_URL_KEY
+import com.example.reddit.common.di.module.ViewModelModule
+import com.example.reddit.posts.di.PostsModule
+import com.example.reddit.posts.di.PostsUiModule
+import com.example.restaurant.common.di.module.AppModule
+import com.example.restaurant.common.di.module.NetModule
+import com.example.restaurant.common.di.module.SchedulersModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -11,12 +17,16 @@ import dagger.android.DaggerApplication
 import javax.inject.Named
 import javax.inject.Singleton
 
-
 @Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
-
+        AppModule::class,
+        NetModule::class,
+        SchedulersModule::class,
+        PostsModule::class,
+        PostsUiModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent : AndroidInjector<DaggerApplication> {
