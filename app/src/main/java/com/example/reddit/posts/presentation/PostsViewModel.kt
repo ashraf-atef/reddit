@@ -23,7 +23,7 @@ class PostsViewModel @Inject constructor(
                 getState().posts()?.after
         )
                 .map { it.data }
-                .execute { postsResponse ->
+                .execute (retainValue = getState().posts) { postsResponse ->
                     if (postsResponse is Success) {
                         val oldList = getState().posts()?.children ?: listOf()
                         val newList = (postsResponse as Success)().children

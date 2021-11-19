@@ -19,18 +19,20 @@ open class BaseViewModel<S : BaseState>(
     val stateFlow: StateFlow<S> = _stateFlow
 
     fun <T> Single<T>.execute(
+        retainValue: Async<T>? = null,
         reducer: S.(Async<T>) -> S
     ) {
-        this.toObservable().execute(reducer)
+        this.toObservable().execute(retainValue, reducer)
     }
 
     fun <T> Observable<T>.execute(
+        retainValue: Async<T>? = null,
         reducer: S.(Async<T>) -> S
     ) {
         this.subscribeOn(schedulersProvider.io())
             .doOnSubscribe {
                 setState(
-                    getState().reducer(Loading())
+                    getState().reducer(Loading(value = retainValue?.invoke()))
                 )
             }
             .subscribe({
@@ -39,7 +41,7 @@ open class BaseViewModel<S : BaseState>(
                 )
             }, {
                 setState(
-                    getState().reducer(Fail(it))
+                    getState().reducer(Fail(it, value = retainValue?.invoke()))
                 )
             })
             .addTo(compositeDisposable)
