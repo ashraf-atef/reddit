@@ -6,7 +6,8 @@ import retrofit2.http.Query
 
 interface PostsRemoteDataSource {
     fun getPosts(
-      limit: Int,
-       after: String?
+        query: String,
+        limit: Int,
+        after: String?
     ): Single<PostsResponse>
 }

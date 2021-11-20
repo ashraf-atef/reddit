@@ -10,7 +10,7 @@ class PostsRepoImpl @Inject constructor(
     private val postsRemoteDataSource: PostsRemoteDataSource
 ) : PostsRepo{
 
-    override fun getPosts(limit: Int, after: String?): Single<PostsResponse> =
-        postsRemoteDataSource.getPosts(limit, after)
+    override fun getPosts(query: String, limit: Int, after: String?): Single<PostsResponse> =
+        postsRemoteDataSource.getPosts(query, limit, after)
 
 }

@@ -12,4 +12,11 @@ interface RedditApi {
         @Query("limit") limit: Int,
         @Query("after") after: String?
     ): Single<PostsResponse>
+
+    @GET("search.json")
+    fun search(
+        @Query("q") query: String,
+        @Query("limit") limit: Int,
+        @Query("after") after: String?
+    ): Single<PostsResponse>
 }

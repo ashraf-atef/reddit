@@ -7,5 +7,6 @@ import com.example.reddit.posts.data.model.Post
 import com.example.reddit.posts.data.model.PostsResponseData
 
 data class PostsState(
+        val searchText: String = "",
         val posts: Async<PostsResponseData> = Uninitialized
 ): BaseState

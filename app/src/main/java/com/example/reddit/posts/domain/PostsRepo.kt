@@ -5,6 +5,7 @@ import io.reactivex.Single
 
 interface PostsRepo {
     fun getPosts(
+        query: String,
         limit: Int,
         after: String?
     ): Single<PostsResponse>

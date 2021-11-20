@@ -1,6 +1,8 @@
 package com.example.reddit.posts.presentation
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +12,7 @@ import com.example.reddit.R
 import com.example.reddit.common.presentation.EndlessRecyclerViewOnScrollListener
 import com.example.reddit.common.presentation.Loading
 import com.example.reddit.common.presentation.Success
+import com.example.reddit.common.presentation.Uninitialized
 import com.example.restaurant.common.presentationLayer.BaseActivity
 import kotlinx.android.synthetic.main.activity_posts.*
 import kotlinx.coroutines.flow.collect
@@ -29,6 +32,7 @@ class PostsActivity : BaseActivity() {
     override fun init(state: Bundle?) {
         initRecyclerView()
         initViewModel()
+        initSearchEdittext()
     }
 
     private fun initRecyclerView() {
@@ -65,11 +69,25 @@ class PostsActivity : BaseActivity() {
             pb_load_from_scratch.isVisible = state.posts is Loading && isPostsEmpty
             // display loading more
             pb_load_more.isVisible = state.posts is Loading && !isPostsEmpty
-
-            // display data on success
-            if (posts is Success) {
-                postAdapter.addData((posts)().children)
+            
+            when (posts) {
+                is Success -> postAdapter.addData((posts)().children)
+                is Uninitialized -> postAdapter.addData(listOf())
             }
         }
+    }
+
+    private fun initSearchEdittext() {
+        et_search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                postsViewModel.searchPosts(s.toString())
+            }
+        })
     }
 }

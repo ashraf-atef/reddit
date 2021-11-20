@@ -7,6 +7,6 @@ import javax.inject.Inject
 class FetchingPostsUseCase @Inject constructor(
     private val postsRepo: PostsRepo
 ) {
-    operator fun invoke (limit: Int, after: String?): Single<PostsResponse> =
-        postsRepo.getPosts(limit, after)
+    operator fun invoke (query: String, limit: Int, after: String?): Single<PostsResponse> =
+        postsRepo.getPosts(query, limit, after)
 }

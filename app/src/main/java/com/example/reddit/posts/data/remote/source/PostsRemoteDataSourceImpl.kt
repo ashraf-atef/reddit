@@ -9,6 +9,9 @@ class PostsRemoteDataSourceImpl @Inject constructor(
     private val redditApi: RedditApi
 ) : PostsRemoteDataSource {
 
-    override fun getPosts(limit: Int, after: String?): Single<PostsResponse> =
-        redditApi.getPosts(limit, after)
+    override fun getPosts(query: String, limit: Int, after: String?): Single<PostsResponse> =
+        if (query.isEmpty())
+            redditApi.getPosts(limit, after)
+        else
+            redditApi.search(query, limit, after)
 }

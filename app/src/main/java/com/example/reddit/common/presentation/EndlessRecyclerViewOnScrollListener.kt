@@ -17,8 +17,7 @@ abstract class EndlessRecyclerViewOnScrollListener : RecyclerView.OnScrollListen
             val firstVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
             if (isLoading) {
-                // Increment total with one to handle adding loading and error items
-                if (totalItemCount > total + 1) {
+                if (totalItemCount > total) {
                     isLoading = false
                     total = totalItemCount
                 }
