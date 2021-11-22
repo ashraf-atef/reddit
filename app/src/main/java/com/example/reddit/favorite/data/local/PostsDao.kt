@@ -1,9 +1,6 @@
 package com.example.reddit.favorite.data.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.reddit.posts.data.model.PostData
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -14,5 +11,11 @@ interface PostsDao {
     fun insert(posts : PostData): Completable
 
     @Query("SELECT * FROM post")
-    fun getFavorites() : Observable<List<PostData>>
+    fun fetchFavourites() : Observable<List<PostData>>
+
+    @Delete
+    fun deleteFavourite(posts: PostData): Completable
+
+    @Query("Delete from post")
+    fun deleteAll(): Completable
 }

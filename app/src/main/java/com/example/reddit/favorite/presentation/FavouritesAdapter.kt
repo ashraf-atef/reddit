@@ -1,4 +1,4 @@
-package com.example.reddit.posts.presentation
+package com.example.reddit.favorite.presentation
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,21 +8,23 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.reddit.R
-import com.example.reddit.posts.data.model.Post
-import kotlinx.android.synthetic.main.item_post.view.*
+import com.example.reddit.posts.data.model.PostData
+import kotlinx.android.synthetic.main.item_favourite.view.*
+import kotlinx.android.synthetic.main.item_post.view.iv_post_image
+import kotlinx.android.synthetic.main.item_post.view.iv_video
+import kotlinx.android.synthetic.main.item_post.view.tv_post_text
 
-class PostsAdapter (
-    private val postsListener: PostsListener
-) : RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
+class FavouritesAdapter (
+    private val favouritesListener: FavouritesListener
+) : RecyclerView.Adapter<FavouritesAdapter.PostViewHolder>() {
 
-
-    private val list: MutableList<Post> = mutableListOf()
+    private val list: MutableList<PostData> = mutableListOf()
 
     override fun getItemCount(): Int = list.size
 
     @NonNull
     override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): PostViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_favourite, parent, false)
         return PostViewHolder(view)
     }
 
@@ -30,7 +32,7 @@ class PostsAdapter (
         holder.bind()
     }
 
-    fun addData(posts: List<Post>) {
+    fun addData(posts: List<PostData>) {
         this.list.clear()
         this.list.addAll(posts)
         notifyDataSetChanged()
@@ -39,13 +41,13 @@ class PostsAdapter (
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         init {
-            itemView.btn_add_to_favourite.setOnClickListener {
-               postsListener.addToFavourite(adapterPosition, list[adapterPosition])
+            itemView.btn_delete_from_favourite.setOnClickListener {
+               favouritesListener.deleteFromFavourite(adapterPosition, list[adapterPosition])
             }
         }
 
         fun bind() {
-            with(list[adapterPosition].data) {
+            with(list[adapterPosition]) {
                 with(itemView) {
                 Glide.with(context)
                     .load(thumbnail)
@@ -59,6 +61,6 @@ class PostsAdapter (
     }
 }
 
-interface PostsListener {
-    fun addToFavourite(index: Int, post: Post)
+interface FavouritesListener {
+    fun deleteFromFavourite(index: Int, post: PostData)
 }

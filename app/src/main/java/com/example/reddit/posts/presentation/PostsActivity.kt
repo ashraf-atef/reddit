@@ -3,12 +3,12 @@ package com.example.reddit.posts.presentation
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.reddit.R
 import com.example.reddit.common.presentation.EndlessRecyclerViewOnScrollListener
 import com.example.reddit.common.presentation.Loading
 import com.example.reddit.common.presentation.Success
@@ -19,6 +19,11 @@ import kotlinx.android.synthetic.main.activity_posts.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import android.view.Menu
+import android.view.MenuItem
+import com.example.reddit.R
+import com.example.reddit.favorite.presentation.FavouritesActivity
+
 
 class PostsActivity : BaseActivity(), PostsListener {
 
@@ -34,6 +39,19 @@ class PostsActivity : BaseActivity(), PostsListener {
         initRecyclerView()
         initViewModel()
         initSearchEdittext()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.posts_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_favourites -> {
+                FavouritesActivity.start(this)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initRecyclerView() {
@@ -71,9 +89,11 @@ class PostsActivity : BaseActivity(), PostsListener {
             // display loading more
             pb_load_more.isVisible = state.posts is Loading && !isPostsEmpty
 
+            // TODO: handle empty state
             when (posts) {
                 is Success -> postAdapter.addData((posts)().children)
                 is Uninitialized -> postAdapter.addData(listOf())
+                // TODO: handle error case
             }
         }
     }
@@ -94,5 +114,10 @@ class PostsActivity : BaseActivity(), PostsListener {
 
     override fun addToFavourite(index: Int, post: Post) {
         postsViewModel.addFavourite(post)
+        Toast.makeText(
+            baseContext,
+            "Added to favourites successfully",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
