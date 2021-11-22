@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.reddit.common.application.BaseApplication
 import com.example.reddit.common.constants.SERVER_URL_KEY
 import com.example.reddit.common.di.module.ViewModelModule
+import com.example.reddit.favorite.di.FavouriteModule
 import com.example.reddit.posts.di.PostsModule
 import com.example.reddit.posts.di.PostsUiModule
 import com.example.restaurant.common.di.module.AppModule
@@ -26,6 +27,7 @@ import javax.inject.Singleton
         SchedulersModule::class,
         PostsModule::class,
         PostsUiModule::class,
+        FavouriteModule::class,
         ViewModelModule::class
     ]
 )

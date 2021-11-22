@@ -13,18 +13,19 @@ import com.example.reddit.common.presentation.EndlessRecyclerViewOnScrollListene
 import com.example.reddit.common.presentation.Loading
 import com.example.reddit.common.presentation.Success
 import com.example.reddit.common.presentation.Uninitialized
+import com.example.reddit.posts.data.model.Post
 import com.example.restaurant.common.presentationLayer.BaseActivity
 import kotlinx.android.synthetic.main.activity_posts.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PostsActivity : BaseActivity() {
+class PostsActivity : BaseActivity(), PostsListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var postsViewModel: PostsViewModel
-    private val postAdapter = PostsAdapter()
+    private val postAdapter = PostsAdapter(this)
     lateinit var endlessRecyclerViewOnScrollListener: EndlessRecyclerViewOnScrollListener
 
     override fun getContentResource(): Int = R.layout.activity_posts
@@ -69,7 +70,7 @@ class PostsActivity : BaseActivity() {
             pb_load_from_scratch.isVisible = state.posts is Loading && isPostsEmpty
             // display loading more
             pb_load_more.isVisible = state.posts is Loading && !isPostsEmpty
-            
+
             when (posts) {
                 is Success -> postAdapter.addData((posts)().children)
                 is Uninitialized -> postAdapter.addData(listOf())
@@ -89,5 +90,9 @@ class PostsActivity : BaseActivity() {
                 postsViewModel.searchPosts(s.toString())
             }
         })
+    }
+
+    override fun addToFavourite(index: Int, post: Post) {
+        postsViewModel.addFavourite(post)
     }
 }

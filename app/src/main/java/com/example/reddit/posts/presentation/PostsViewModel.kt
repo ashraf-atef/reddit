@@ -1,8 +1,11 @@
 package com.example.reddit.posts.presentation
 
+import android.annotation.SuppressLint
 import com.example.reddit.common.presentation.Success
 import com.example.reddit.common.presentation.Uninitialized
 import com.example.reddit.common.presentation.viewmodel.BaseViewModel
+import com.example.reddit.favorite.domain.AddingFavourite
+import com.example.reddit.posts.data.model.Post
 import com.example.reddit.posts.domain.FetchingPostsUseCase
 import com.example.restaurant.common.presentationLayer.rx.schedulers.SchedulersProvider
 import javax.inject.Inject
@@ -11,6 +14,7 @@ const val POSTS_LIMIT = 10
 
 class PostsViewModel @Inject constructor(
     private val fetchingPostsUseCase: FetchingPostsUseCase,
+    private val addingFavourite: AddingFavourite,
     schedulersProvider: SchedulersProvider
 ) : BaseViewModel<PostsState>(PostsState(), schedulersProvider) {
 
@@ -52,5 +56,12 @@ class PostsViewModel @Inject constructor(
                     )
                 }
             }
+    }
+
+    @SuppressLint("CheckResult")
+    fun addFavourite(post: Post) {
+        addingFavourite(post.data)
+            .subscribeOn(schedulersProvider.io())
+            .blockingGet()
     }
 }
