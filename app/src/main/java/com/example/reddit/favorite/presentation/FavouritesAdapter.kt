@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.reddit.R
+import com.example.reddit.common.presentation.BaseDiffUtilCallback
 import com.example.reddit.posts.data.model.PostData
 import kotlinx.android.synthetic.main.item_favourite.view.*
 import kotlinx.android.synthetic.main.item_post.view.iv_post_image
@@ -19,6 +21,18 @@ class FavouritesAdapter (
 ) : RecyclerView.Adapter<FavouritesAdapter.PostViewHolder>() {
 
     private val list: MutableList<PostData> = mutableListOf()
+    private val diff by lazy {
+        object : BaseDiffUtilCallback<PostData> (){
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+               return oldData[oldItemPosition].id == newData[newItemPosition].id
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return oldData[oldItemPosition] == newData[newItemPosition]
+            }
+
+        }
+    }
 
     override fun getItemCount(): Int = list.size
 
@@ -32,10 +46,12 @@ class FavouritesAdapter (
         holder.bind()
     }
 
-    fun addData(posts: List<PostData>) {
+    fun addData(newPosts: List<PostData>) {
+        diff.setLists(list, newPosts)
+        val diffResult = DiffUtil.calculateDiff(diff)
+        diffResult.dispatchUpdatesTo(this)
         this.list.clear()
-        this.list.addAll(posts)
-        notifyDataSetChanged()
+        this.list.addAll(newPosts)
     }
 
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
