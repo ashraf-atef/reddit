@@ -6,4 +6,6 @@
     <string name="title_favourites">Favourites</string>
     <string name="title_delete_all">Delete All</string>
     <string name="title_no_data_available">no data available</string>
+    <string name="msg_something_went_wrong">Sorry, something went wrong, please try again</string>
+    <string name="msg_internet_connection_error">Please check your internet connection</string>
 </resources>

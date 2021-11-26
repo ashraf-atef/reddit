@@ -9,12 +9,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.reddit.common.presentation.EndlessRecyclerViewOnScrollListener
-import com.example.reddit.common.presentation.Loading
-import com.example.reddit.common.presentation.Success
-import com.example.reddit.common.presentation.Uninitialized
 import com.example.reddit.posts.data.model.Post
-import com.example.restaurant.common.presentationLayer.BaseActivity
+import com.example.reddit.common.presentation.activity.BaseActivity
 import kotlinx.android.synthetic.main.activity_posts.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,6 +18,8 @@ import javax.inject.Inject
 import android.view.Menu
 import android.view.MenuItem
 import com.example.reddit.R
+import com.example.reddit.common.presentation.*
+import com.example.reddit.common.presentation.activity.handleHttpException
 import com.example.reddit.favorite.presentation.FavouritesActivity
 import kotlinx.android.synthetic.main.activity_posts.pb_load_from_scratch
 
@@ -93,9 +91,9 @@ class PostsActivity : BaseActivity(), PostsListener {
             tv_no_data.isVisible = posts is Success && (posts)().children.isEmpty()
 
             when (posts) {
-                is Success -> postAdapter.addData((posts)().children)
                 is Uninitialized -> postAdapter.addData(listOf())
-                // TODO: handle error case
+                is Success -> postAdapter.addData((posts)().children)
+                is Fail -> handleHttpException(posts.error)
             }
         }
     }

@@ -14,11 +14,10 @@ import com.example.reddit.R
 import com.example.reddit.common.presentation.Loading
 import com.example.reddit.common.presentation.Success
 import com.example.reddit.posts.data.model.PostData
-import com.example.restaurant.common.presentationLayer.BaseActivity
+import com.example.reddit.common.presentation.activity.BaseActivity
 import kotlinx.android.synthetic.main.activity_favourites.*
 import kotlinx.android.synthetic.main.activity_favourites.pb_load_from_scratch
 import kotlinx.android.synthetic.main.activity_favourites.tv_no_data
-import kotlinx.android.synthetic.main.activity_posts.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
