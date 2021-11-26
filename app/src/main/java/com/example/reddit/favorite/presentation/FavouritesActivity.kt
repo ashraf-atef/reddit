@@ -16,6 +16,9 @@ import com.example.reddit.common.presentation.Success
 import com.example.reddit.posts.data.model.PostData
 import com.example.restaurant.common.presentationLayer.BaseActivity
 import kotlinx.android.synthetic.main.activity_favourites.*
+import kotlinx.android.synthetic.main.activity_favourites.pb_load_from_scratch
+import kotlinx.android.synthetic.main.activity_favourites.tv_no_data
+import kotlinx.android.synthetic.main.activity_posts.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -83,7 +86,8 @@ class FavouritesActivity : BaseActivity(), FavouritesListener {
     private fun renderState(state: FavouritesState) {
         with(state) {
             // display loading from scratch
-            pb_load_from_scratch.isVisible = state.favourites is Loading
+            pb_load_from_scratch.isVisible = favourites is Loading
+            tv_no_data.isVisible =  favourites is Success && (favourites)().isEmpty()
 
             when (favourites) {
                 is Success -> favouritesAdapter.addData((favourites)())

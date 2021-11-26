@@ -23,6 +23,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.reddit.R
 import com.example.reddit.favorite.presentation.FavouritesActivity
+import kotlinx.android.synthetic.main.activity_posts.pb_load_from_scratch
 
 
 class PostsActivity : BaseActivity(), PostsListener {
@@ -88,8 +89,9 @@ class PostsActivity : BaseActivity(), PostsListener {
             pb_load_from_scratch.isVisible = state.posts is Loading && isPostsEmpty
             // display loading more
             pb_load_more.isVisible = state.posts is Loading && !isPostsEmpty
+            // display emptyView
+            tv_no_data.isVisible = posts is Success && (posts)().children.isEmpty()
 
-            // TODO: handle empty state
             when (posts) {
                 is Success -> postAdapter.addData((posts)().children)
                 is Uninitialized -> postAdapter.addData(listOf())
