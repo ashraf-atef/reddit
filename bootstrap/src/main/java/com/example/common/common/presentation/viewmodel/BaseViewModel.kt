@@ -3,6 +3,7 @@ package com.example.common.common.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.common.common.presentation.*
 import com.example.common.common.presentation.schedulers.SchedulersProvider
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -43,6 +44,12 @@ open class BaseViewModel<S : BaseState>(
                     getState().reducer(Fail(it, value = retainValue?.invoke()))
                 )
             })
+            .addTo(compositeDisposable)
+    }
+
+    fun  Completable.fireAndForget() {
+        this.subscribeOn(schedulersProvider.io())
+            .subscribe({}, {})
             .addTo(compositeDisposable)
     }
 

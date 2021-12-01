@@ -6,6 +6,7 @@ import com.example.reddit.favorite.domain.DeletingFavourite
 import com.example.reddit.favorite.domain.FetchingFavourites
 import com.example.reddit.posts.data.model.PostData
 import com.example.common.common.presentation.schedulers.SchedulersProvider
+import com.example.common.common.presentation.viewmodel.BaseViewModel
 import javax.inject.Inject
 
 class FavouritesViewModel @Inject constructor(
@@ -13,7 +14,7 @@ class FavouritesViewModel @Inject constructor(
     private val deletingFavourite: DeletingFavourite,
     private val deletingAllFavourite: DeletingAllFavourite,
     schedulersProvider: SchedulersProvider
-): com.example.common.common.presentation.viewmodel.BaseViewModel<FavouritesState>(FavouritesState(), schedulersProvider) {
+): BaseViewModel<FavouritesState>(FavouritesState(), schedulersProvider) {
 
     init {
         fetchFavourites()
@@ -28,17 +29,13 @@ class FavouritesViewModel @Inject constructor(
             }
     }
 
-    @SuppressLint("CheckResult")
     fun deleteFavourite(postData: PostData) {
         deletingFavourite(postData)
-            .subscribeOn(schedulersProvider.io())
-            .blockingGet()
+            .fireAndForget()
     }
 
-    @SuppressLint("CheckResult")
     fun deleteAllFavourites() {
         deletingAllFavourite()
-            .subscribeOn(schedulersProvider.io())
-            .blockingGet()
+            .fireAndForget()
     }
 }

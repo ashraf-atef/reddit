@@ -29,7 +29,7 @@ class PostsActivity : com.example.common.common.presentation.activity.BaseActivi
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var postsViewModel: PostsViewModel
     private val postAdapter = PostsAdapter(this)
-    lateinit var endlessRecyclerViewOnScrollListener: com.example.common.common.presentation.EndlessRecyclerViewOnScrollListener
+    lateinit var endlessRecyclerViewOnScrollListener: EndlessRecyclerViewOnScrollListener
 
     override fun getContentResource(): Int = R.layout.activity_posts
 
@@ -83,16 +83,16 @@ class PostsActivity : com.example.common.common.presentation.activity.BaseActivi
         with(state) {
             val isPostsEmpty = posts()?.children?.isNullOrEmpty() ?: true
             // display loading from scratch
-            pb_load_from_scratch.isVisible = state.posts is com.example.common.common.presentation.Loading && isPostsEmpty
+            pb_load_from_scratch.isVisible = state.posts is Loading && isPostsEmpty
             // display loading more
-            pb_load_more.isVisible = state.posts is com.example.common.common.presentation.Loading && !isPostsEmpty
+            pb_load_more.isVisible = state.posts is Loading && !isPostsEmpty
             // display emptyView
-            tv_no_data.isVisible = posts is com.example.common.common.presentation.Success && (posts)().children.isEmpty()
+            tv_no_data.isVisible = posts is Success && (posts)().children.isEmpty()
 
             when (posts) {
-                is com.example.common.common.presentation.Uninitialized -> postAdapter.addData(listOf())
-                is com.example.common.common.presentation.Success -> postAdapter.addData((posts)().children)
-                is com.example.common.common.presentation.Fail -> handleHttpException(posts.error)
+                is Uninitialized -> postAdapter.addData(listOf())
+                is Success -> postAdapter.addData((posts)().children)
+                is Fail -> handleHttpException(posts.error)
             }
         }
     }
