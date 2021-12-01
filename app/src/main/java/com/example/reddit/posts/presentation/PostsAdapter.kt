@@ -5,14 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.reddit.R
-import com.example.reddit.common.presentation.BaseDiffUtilCallback
+import com.example.common.common.presentation.BaseDiffUtilCallback
 import com.example.reddit.posts.data.model.Post
-import com.example.reddit.posts.data.model.PostData
 import kotlinx.android.synthetic.main.item_post.view.*
 
 class PostsAdapter (
@@ -21,7 +19,7 @@ class PostsAdapter (
 
     private val list: MutableList<Post> = mutableListOf()
     private val diff by lazy {
-        object : BaseDiffUtilCallback<Post>(){
+        object : com.example.common.common.presentation.BaseDiffUtilCallback<Post>(){
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return oldData[oldItemPosition].data.id == newData[newItemPosition].data.id
             }

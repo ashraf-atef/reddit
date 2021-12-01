@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.reddit.R
-import com.example.reddit.common.presentation.BaseDiffUtilCallback
+import com.example.common.common.presentation.BaseDiffUtilCallback
 import com.example.reddit.posts.data.model.PostData
 import kotlinx.android.synthetic.main.item_favourite.view.*
 import kotlinx.android.synthetic.main.item_post.view.iv_post_image
@@ -22,7 +22,7 @@ class FavouritesAdapter (
 
     private val list: MutableList<PostData> = mutableListOf()
     private val diff by lazy {
-        object : BaseDiffUtilCallback<PostData> (){
+        object : com.example.common.common.presentation.BaseDiffUtilCallback<PostData>(){
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                return oldData[oldItemPosition].id == newData[newItemPosition].id
             }

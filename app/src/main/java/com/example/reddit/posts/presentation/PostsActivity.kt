@@ -4,33 +4,32 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.reddit.posts.data.model.Post
-import com.example.reddit.common.presentation.activity.BaseActivity
+import com.example.common.common.presentation.activity.BaseActivity
 import kotlinx.android.synthetic.main.activity_posts.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.reddit.R
-import com.example.reddit.common.presentation.*
-import com.example.reddit.common.presentation.activity.handleHttpException
+import com.example.common.common.presentation.*
+import com.example.common.common.presentation.activity.handleHttpException
 import com.example.reddit.favorite.presentation.FavouritesActivity
-import kotlinx.android.synthetic.main.activity_posts.pb_load_from_scratch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
-class PostsActivity : BaseActivity(), PostsListener {
+class PostsActivity : com.example.common.common.presentation.activity.BaseActivity(), PostsListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var postsViewModel: PostsViewModel
     private val postAdapter = PostsAdapter(this)
-    lateinit var endlessRecyclerViewOnScrollListener: EndlessRecyclerViewOnScrollListener
+    lateinit var endlessRecyclerViewOnScrollListener: com.example.common.common.presentation.EndlessRecyclerViewOnScrollListener
 
     override fun getContentResource(): Int = R.layout.activity_posts
 
@@ -56,7 +55,7 @@ class PostsActivity : BaseActivity(), PostsListener {
     private fun initRecyclerView() {
         rv_posts.adapter = postAdapter
 
-        endlessRecyclerViewOnScrollListener = object : EndlessRecyclerViewOnScrollListener() {
+        endlessRecyclerViewOnScrollListener = object : com.example.common.common.presentation.EndlessRecyclerViewOnScrollListener() {
 
             override fun onLoadMore() {
                 postsViewModel.fetchPosts()
@@ -84,16 +83,16 @@ class PostsActivity : BaseActivity(), PostsListener {
         with(state) {
             val isPostsEmpty = posts()?.children?.isNullOrEmpty() ?: true
             // display loading from scratch
-            pb_load_from_scratch.isVisible = state.posts is Loading && isPostsEmpty
+            pb_load_from_scratch.isVisible = state.posts is com.example.common.common.presentation.Loading && isPostsEmpty
             // display loading more
-            pb_load_more.isVisible = state.posts is Loading && !isPostsEmpty
+            pb_load_more.isVisible = state.posts is com.example.common.common.presentation.Loading && !isPostsEmpty
             // display emptyView
-            tv_no_data.isVisible = posts is Success && (posts)().children.isEmpty()
+            tv_no_data.isVisible = posts is com.example.common.common.presentation.Success && (posts)().children.isEmpty()
 
             when (posts) {
-                is Uninitialized -> postAdapter.addData(listOf())
-                is Success -> postAdapter.addData((posts)().children)
-                is Fail -> handleHttpException(posts.error)
+                is com.example.common.common.presentation.Uninitialized -> postAdapter.addData(listOf())
+                is com.example.common.common.presentation.Success -> postAdapter.addData((posts)().children)
+                is com.example.common.common.presentation.Fail -> handleHttpException(posts.error)
             }
         }
     }

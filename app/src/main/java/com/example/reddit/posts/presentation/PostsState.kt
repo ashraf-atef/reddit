@@ -1,12 +1,11 @@
 package com.example.reddit.posts.presentation
 
-import com.example.reddit.common.presentation.Async
-import com.example.reddit.common.presentation.Uninitialized
-import com.example.reddit.common.presentation.viewmodel.BaseState
-import com.example.reddit.posts.data.model.Post
+import com.example.common.common.presentation.Async
+import com.example.common.common.presentation.Uninitialized
+import com.example.common.common.presentation.viewmodel.BaseState
 import com.example.reddit.posts.data.model.PostsResponseData
 
 data class PostsState(
         val searchText: String = "",
-        val posts: Async<PostsResponseData> = Uninitialized
-): BaseState
+        val posts: com.example.common.common.presentation.Async<PostsResponseData> = com.example.common.common.presentation.Uninitialized
+): com.example.common.common.presentation.viewmodel.BaseState

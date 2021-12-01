@@ -11,18 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.reddit.R
-import com.example.reddit.common.presentation.Loading
-import com.example.reddit.common.presentation.Success
+import com.example.common.common.presentation.Loading
+import com.example.common.common.presentation.Success
 import com.example.reddit.posts.data.model.PostData
-import com.example.reddit.common.presentation.activity.BaseActivity
+import com.example.common.common.presentation.activity.BaseActivity
 import kotlinx.android.synthetic.main.activity_favourites.*
-import kotlinx.android.synthetic.main.activity_favourites.pb_load_from_scratch
-import kotlinx.android.synthetic.main.activity_favourites.tv_no_data
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class FavouritesActivity : BaseActivity(), FavouritesListener {
+class FavouritesActivity : com.example.common.common.presentation.activity.BaseActivity(), FavouritesListener {
 
     private val favouritesAdapter = FavouritesAdapter(this)
     @Inject
@@ -85,11 +83,11 @@ class FavouritesActivity : BaseActivity(), FavouritesListener {
     private fun renderState(state: FavouritesState) {
         with(state) {
             // display loading from scratch
-            pb_load_from_scratch.isVisible = favourites is Loading
-            tv_no_data.isVisible =  favourites is Success && (favourites)().isEmpty()
+            pb_load_from_scratch.isVisible = favourites is com.example.common.common.presentation.Loading
+            tv_no_data.isVisible =  favourites is com.example.common.common.presentation.Success && (favourites)().isEmpty()
 
             when (favourites) {
-                is Success -> favouritesAdapter.addData((favourites)())
+                is com.example.common.common.presentation.Success -> favouritesAdapter.addData((favourites)())
                 // TODO: handle error case
             }
         }

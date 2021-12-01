@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="msg_something_went_wrong">Sorry, something went wrong, please try again</string>
+    <string name="msg_internet_connection_error">Please check your internet connection</string>
+</resources>

@@ -1,14 +1,11 @@
 package com.example.reddit.favorite.presentation
 
 import android.annotation.SuppressLint
-import com.example.reddit.common.presentation.viewmodel.BaseViewModel
-import com.example.reddit.favorite.domain.AddingFavourite
 import com.example.reddit.favorite.domain.DeletingAllFavourite
 import com.example.reddit.favorite.domain.DeletingFavourite
 import com.example.reddit.favorite.domain.FetchingFavourites
 import com.example.reddit.posts.data.model.PostData
-import com.example.reddit.posts.domain.FetchingPostsUseCase
-import com.example.restaurant.common.presentationLayer.rx.schedulers.SchedulersProvider
+import com.example.common.common.presentation.schedulers.SchedulersProvider
 import javax.inject.Inject
 
 class FavouritesViewModel @Inject constructor(
@@ -16,7 +13,7 @@ class FavouritesViewModel @Inject constructor(
     private val deletingFavourite: DeletingFavourite,
     private val deletingAllFavourite: DeletingAllFavourite,
     schedulersProvider: SchedulersProvider
-): BaseViewModel<FavouritesState>(FavouritesState(), schedulersProvider) {
+): com.example.common.common.presentation.viewmodel.BaseViewModel<FavouritesState>(FavouritesState(), schedulersProvider) {
 
     init {
         fetchFavourites()
